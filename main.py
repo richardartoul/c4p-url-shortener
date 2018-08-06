@@ -51,5 +51,5 @@ def error(code):
 	return jsonify({"error_code": code})
 
 if __name__ == "__main__":
-	app.run()
+	app.run(debug=True, use_reloader=True)
 
