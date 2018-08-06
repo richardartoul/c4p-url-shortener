@@ -10,10 +10,14 @@ app = Flask(__name__)
 ERROR_ALREADY_EXISTS = "short_code_already_in_use"
 ERROR_SHORT_CODE_DOES_NOT_EXIST = "short_code_does_not_exist"
 
+# Our "database". Note that accessing this dictionary requires no
+# synchronization because flask doesn't do any multithreading / concurrency.
 shortened_urls = dict()
 
+# Setup a basic logger.
 logging.basicConfig()
 logger = logging.getLogger()
+# Log at debug level by default.
 logger.setLevel(logging.DEBUG)
 
 @app.route("/", methods=["GET","POST"])
