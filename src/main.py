@@ -54,7 +54,7 @@ def get_short_url():
 	url = shortened_urls.get(short_code)
 	if not url:
 		return error(ERROR_SHORT_CODE_DOES_NOT_EXIST)
-	# return redirect(url, code=302)
+	return redirect(url, code=302)
 
 def error(code):
 	return jsonify({"error_code": code})
