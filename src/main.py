@@ -42,7 +42,7 @@ def post_short_url():
 			"failed to create shortened URL, %s already exists",
 			short_code,
 		)
-		return error(ERROR_ALREADY_EXISTS), 400
+		# return error(ERROR_ALREADY_EXISTS), 400
 	
 	logger.debug(
 		"creating shortened URL, %s -> %s", url, short_code)
