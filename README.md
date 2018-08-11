@@ -23,6 +23,12 @@ Once a short code has been created, it can be used by issuing a GET request to t
 http://localhost:5000?short_code=google
 ```
 
+## How To Run The Tests
+
+```bash
+python src/test.py
+```
+
 ## Potential For Improvements
 
 1. Persistence (currently all shortened URLs are stored in memory and lost upon server restart).
