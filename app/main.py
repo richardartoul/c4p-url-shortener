@@ -13,6 +13,7 @@ datadog_options = {
 	"api_key": os.environ.get("DATADOG_API_KEY"),
 	"app_key": os.environ.get("DATADOG_APP_KEY")
 }
+initialize(datadog_options)
 
 app = Flask(__name__)
 
