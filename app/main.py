@@ -21,7 +21,7 @@ datadog_options = {
 	"api_key": os.environ.get(DATADOG_API_KEY_ENVIRON),
 	"app_key": os.environ.get(DATADOG_APP_KEY_ENVIRON)
 }
-initialize(datadog_options)
+initialize(**datadog_options)
 stats = ThreadStats()
 stats.start()
 
