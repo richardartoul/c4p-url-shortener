@@ -54,7 +54,7 @@ def create_short_url():
 		return get_short_url()
 	raise Exception("unsupported method type")
 
-@timed(stats, "post-url-timer")
+@stats.timed("post-url-timer")
 def post_short_url():
 	req = request.get_json()
 	url = req["url"]
@@ -73,7 +73,7 @@ def post_short_url():
 	stats.increment("post-short-code-success")
 	return jsonify({}), 200
 
-@timed(stats, "get-url-timer")
+@stats.timed("get-url-timer")
 def get_short_url():
 	short_code = request.args.get("short_code")
 	if not short_code:
@@ -88,10 +88,6 @@ def get_short_url():
 
 def error(code):
 	return jsonify({"error_code": code})
-
-def timed(stats, title, f):
-	with stats.timer(title):
-		f()
 
 if __name__ == "__main__":
 	app.run(debug=True, use_reloader=True)
