@@ -9,9 +9,17 @@ from flask import request
 from datadog import initialize
 from datadog import ThreadStats
 
+DATADOG_API_KEY_ENVIRON = "DATADOG_API_KEY"
+DATADOG_APP_KEY_ENVIRON = "DATADOG_APP_KEY"
+
+if not os.environ.get(DATADOG_API_KEY_ENVIRON):
+	print("did not find datadog API key")
+if not os.environ.get(DATADOG_APP_KEY_ENVIRON):
+	print("did not find datadog App key")
+
 datadog_options = {
-	"api_key": os.environ.get("DATADOG_API_KEY"),
-	"app_key": os.environ.get("DATADOG_APP_KEY")
+	"api_key": os.environ.get(DATADOG_API_KEY_ENVIRON),
+	"app_key": os.environ.get(DATADOG_APP_KEY_ENVIRON)
 }
 initialize(datadog_options)
 stats = ThreadStats()
