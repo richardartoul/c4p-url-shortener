@@ -7,13 +7,15 @@ from flask import redirect
 from flask import request
 
 from datadog import initialize
-from datadog import statsd
+from datadog import ThreadStats
 
 datadog_options = {
 	"api_key": os.environ.get("DATADOG_API_KEY"),
 	"app_key": os.environ.get("DATADOG_APP_KEY")
 }
 initialize(datadog_options)
+stats = ThreadStats()
+stats.start()
 
 app = Flask(__name__)
 
@@ -53,25 +55,25 @@ def post_short_url():
 			"failed to create shortened URL, %s already exists",
 			short_code,
 		)
-		statsd.increment("post-short-code-already-exists")
+		stats.increment("post-short-code-already-exists")
 		return error(ERROR_ALREADY_EXISTS), 400
 	
 	logger.debug(
 		"creating shortened URL, %s -> %s", url, short_code)
 	shortened_urls[short_code] = url
-	statsd.increment("post-short-code-success")
+	stats.increment("post-short-code-success")
 	return jsonify({}), 200
 
 def get_short_url():
 	short_code = request.args.get("short_code")
 	if not short_code:
-		statsd.increment("redirect-error-short-code-must-be-provided")
+		stats.increment("redirect-error-short-code-must-be-provided")
 		return error(ERROR_SHORT_CODE_MUST_BE_PROVIDED)
 	url = shortened_urls.get(short_code)
 	if not url:
-		statsd.increment("redirect-error-short-code-not-exist")
+		stats.increment("redirect-error-short-code-not-exist")
 		return error(ERROR_SHORT_CODE_DOES_NOT_EXIST)
-	statsd.increment("redirect-success")
+	stats.increment("redirect-success")
 	return redirect(url, code=302)
 
 def error(code):
