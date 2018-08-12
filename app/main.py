@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 ERROR_ALREADY_EXISTS = "short_code_already_in_use"
 ERROR_SHORT_CODE_DOES_NOT_EXIST = "short_code_does_not_exist"
+ERROR_SHORT_CODE_MUST_BE_PROVIDED = "short_code_must_be_provided"
 
 # Our "database". Note that accessing this dictionary requires no
 # synchronization because flask doesn't do any multithreading / concurrency.
@@ -50,7 +51,9 @@ def post_short_url():
 	return jsonify({}), 200
 
 def get_short_url():
-	short_code = request.args["short_code"]
+	short_code = request.args.get("short_code")
+	if not short_code:
+		return error(ERROR_SHORT_CODE_MUST_BE_PROVIDED)
 	url = shortened_urls.get(short_code)
 	if not url:
 		return error(ERROR_SHORT_CODE_DOES_NOT_EXIST)
