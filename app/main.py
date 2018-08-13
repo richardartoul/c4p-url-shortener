@@ -9,6 +9,8 @@ from flask import request
 from datadog import initialize
 from datadog import ThreadStats
 
+#i wanted to add something for the pull request
+
 DATADOG_API_KEY_ENVIRON = "DATADOG_API_KEY"
 DATADOG_APP_KEY_ENVIRON = "DATADOG_APP_KEY"
 
