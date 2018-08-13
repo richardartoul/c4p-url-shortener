@@ -4,6 +4,7 @@ from flask import Flask
 from flask import jsonify
 from flask import redirect
 from flask import request
+from action_utils import *
 
 app = Flask(__name__)
 
@@ -19,35 +20,29 @@ def reset_shortened_urls():
 	global shortened_urls
 	shortened_urls = dict()
 
-# Setup a basic logger.
-logging.basicConfig()
-logger = logging.getLogger()
-# Log at debug level by default.
-logger.setLevel(logging.DEBUG)
 
-@app.route("/", methods=["GET", "POST"])
+
+@app.route("/", methods=["GET"])
 def create_short_url():
-	if request.method == "POST":
-		return post_short_url()
 	if request.method == "GET":
 		return get_short_url()
 	raise Exception("unsupported method type")
 
-def post_short_url():
+#this method used to ADD shortende urls
+@app.route("/add", methods=["POST"])
+def add_short_url():
 	req = request.get_json()
 	url = req["url"]
 	short_code = req["short_code"]
-	if short_code in shortened_urls:
-		logger.debug(
-			"failed to create shortened URL, %s already exists",
-			short_code,
-		)
-		return error(ERROR_ALREADY_EXISTS), 400
-	
-	logger.debug(
-		"creating shortened URL, %s -> %s", url, short_code)
-	shortened_urls[short_code] = url
-	return jsonify({}), 200
+	return action_add_url(url,short_code,shortened_urls)
+
+#this method used to MODIFY shortende urls
+# @app.route("/modify", methods=["POST"])
+# def add_short_url():
+# 	req = request.get_json()
+# 	url = req["url"]
+# 	short_code = req["short_code"]
+# 	return action_modify_url(url,short_code,shortened_urls)
 
 def get_short_url():
 	short_code = request.args["short_code"]
