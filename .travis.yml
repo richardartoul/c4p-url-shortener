@@ -3,4 +3,4 @@ language: python
 install:
   - pip install -r requirements.txt
 # command to run tests
-script: python src/test.py
+script: src/test.py
