@@ -14,7 +14,6 @@ ERROR_SHORT_CODE_DOES_NOT_EXIST = "short_code_does_not_exist"
 # synchronization because flask doesn't do any multithreading / concurrency.
 # TODO: We should probably wrap this up in some kind of singleton / class,
 # but this works for demo purposes.
-# ...
 shortened_urls = dict()
 def reset_shortened_urls():
 	global shortened_urls
